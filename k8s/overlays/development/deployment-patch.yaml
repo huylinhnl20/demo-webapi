@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+spec:
+  replicas: 1
+  template:
+    spec:
+      tolerations:
+      - key: "node.kubernetes.io/disk-pressure"
+        operator: "Exists"
+        effect: "NoSchedule"
+      - key: "node.kubernetes.io/disk-pressure"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 300
+      - key: "node.kubernetes.io/memory-pressure" 
+        operator: "Exists"
+        effect: "NoSchedule"
+      containers:
+      - name: myapi
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Development"
+        resources:
+          requests:
+            cpu: 25m
+            memory: 32Mi
+            ephemeral-storage: 100Mi
+          limits:
+            cpu: 100m
+            memory: 128Mi
+            ephemeral-storage: 500Mi
+
+        volumeMounts:
+        - name: tls-certs
+          mountPath: /app/certs
+          readOnly: true
+        - name: appsettings
+          mountPath: /app/appsettings.Development.json
+          subPath: appsettings.Development.json
+          readOnly: true
+      volumes:
+      - name: tls-certs
+        secret:
+          secretName: myapi-tls-certs-dev
+          defaultMode: 440
+          items:
+          - key: dev-server.pfx
+            path: dev-server.pfx

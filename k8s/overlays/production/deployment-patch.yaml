@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+spec:
+  template:
+    spec:
+      containers:
+      - name: myapi
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Production"
+        volumeMounts:
+        - name: tls-certs
+          mountPath: /app/certs
+          readOnly: true
+        - name: appsettings
+          mountPath: /app/appsettings.Production.json
+          subPath: appsettings.Production.json
+          readOnly: true
+        resources:
+          requests:
+            cpu: 200m
+            memory: 256Mi
+          limits:
+            cpu: 1000m
+            memory: 1Gi
+      volumes:
+      - name: tls-certs
+        secret:
+          secretName: myapi-tls-certs-prod
+          defaultMode: 440
+          items:
+          - key: production-server.pfx
+            path: production-server.pfx
+      - name: appsettings
+        configMap:
+          name: config

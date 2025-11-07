@@ -1,0 +1,61 @@
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Visual Studio / VS Code
+.vs/
+.vscode/
+*.user
+*.suo
+*.userprefs
+.DS_Store
+
+# Build outputs
+**/bin/
+**/obj/
+**/out/
+
+# NuGet
+packages/
+*.nupkg
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+**/.tmp
+**/temp/
+
+# Documentation
+*.md
+!README.md
+
+# Kubernetes
+k8s/
+
+# Test files
+**/*Tests/
+**/TestResults/
+
+# Coverage
+coverage/
+*.coverage
+*.coveragexml
+
+# Rider
+.idea/
+
+# Local development certificates
+**/*.pfx
+**/*.p12
+**/dev-server.*
+**/test-server.*
+
+# Environment files
+.env
+.env.local
+.env.development
+.env.staging
+.env.production

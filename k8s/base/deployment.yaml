@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+  labels:
+    app: myapi
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myapi
+  template:
+    metadata:
+      labels:
+        app: myapi
+        version: v1
+    spec:
+      serviceAccountName: serviceaccount
+      containers:
+      - name: myapi
+        image: docker.io/huylinhnl/myapi:latest
+        env:
+        - name: ASPNETCORE_URLS
+          value: "https://*:8443"
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Production"
+        volumeMounts:
+        - name: appsettings
+          mountPath: /app/appsettings.Production.json
+          subPath: appsettings.Production.json
+          readOnly: true
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+      volumes:
+      - name: appsettings
+        configMap:
+          name: config
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
