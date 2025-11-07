@@ -24,8 +24,6 @@ patches:
     kind: Secret
     name: tls-secret
 
-
-
 images:
 - name: myapi
   newTag: dev-latest

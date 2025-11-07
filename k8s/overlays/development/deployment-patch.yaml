@@ -14,7 +14,7 @@ spec:
         operator: "Exists"
         effect: "NoExecute"
         tolerationSeconds: 300
-      - key: "node.kubernetes.io/memory-pressure" 
+      - key: "node.kubernetes.io/memory-pressure"
         operator: "Exists"
         effect: "NoSchedule"
       containers:
